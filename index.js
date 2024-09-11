@@ -5,16 +5,21 @@ const apagar = document.getElementById('trash')
 const endereco_result = document.getElementById('endereco_result');
 const bits_mp_result = document.getElementById('bits_mp_result');
 const bits_cache_result = document.getElementById('bits_cache_result');
-const bits_linha_result = document.getElementById('bits_linha_result');
+const bits_offset_result = document.getElementById('bits_offset_result');
 const bits_tag_result = document.getElementById('bits_tag_result');
 const bits_conjunto_result = document.getElementById('bits_conjunto_result');
+const numero_linhas_result = document.getElementById('numero_linhas_result');
 const endereco_binario_result = document.getElementById('endereco_binario_result');
 const tag_binario_result = document.getElementById('tag_binario_result');
 const conjunto_binario_result = document.getElementById('conjunto_binario_result');
 const offset_binario_result = document.getElementById('offset_binario_result');
+const cache_binario_result = document.getElementById('cache_binario_result')
+const linha_binario_result = document.getElementById('linha_binario_result')
 const tag_hexa_result = document.getElementById('tag_hexa_result');
 const conjunto_hexa_result = document.getElementById('conjunto_hexa_result');
 const offset_hexa_result = document.getElementById('offset_hexa_result');
+const linha_hexa_result = document.getElementById('linha_hexa_result')
+const cache_hexa_result = document.getElementById('cache_hexa_result')
 
 
 enviar.addEventListener('click', () => {
@@ -31,66 +36,105 @@ enviar.addEventListener('click', () => {
   const select_linha = document.getElementById('select_linha').value
   const select_conjunto = document.getElementById('select_conjunto').value
 
+  const select_tipo = document.getElementById('select_tipo').value
   const com_conjunto = document.getElementById('select_conjunto').value
   
-  if (com_conjunto.toUpperCase() == "SIM") {
+  if (select_tipo.toUpperCase() == "DIRETO") {
     const bitsMp = (converterMemoria(input_mp, select_memoria))
     const bitsCache = (converterMemoria(input_cache, select_cache))
-    const bitsLinha = (converterMemoria(input_linha, select_linha))
-    const elevadoConjunto = (converterMemoria(input_conjunto, select_conjunto))
-    const bitsConjunto = bitsConjuntoFunc(bitsCache, elevadoConjunto, bitsLinha)
-    const bitsTag = tagComConjunto(bitsMp, bitsLinha, bitsConjunto)
+    const bitsOffset = (converterMemoria(input_linha, select_linha))
+    const numeroLinhas = numeroDeLinhas(bitsCache, bitsOffset)
+    const bitsTag = tagDireto(bitsMp, numeroLinhas, bitsOffset)
 
     bits_mp_result.textContent = bitsMp
     bits_cache_result.textContent = bitsCache
-    bits_linha_result.textContent = bitsLinha
-    bits_conjunto_result.textContent = bitsConjunto
+    bits_offset_result.textContent = bitsOffset
+    numero_linhas_result.textContent = numeroLinhas
     bits_tag_result.textContent = bitsTag
 
     const endereco_binario = hexToBinary(endereco_memoria)
-    const tag_binario = endereco_binario.slice(0,endereco_binario.length-(bitsConjunto + bitsLinha))
-    const conjunto_binario = endereco_binario.slice(bitsTag-1,endereco_binario.length-bitsLinha)
-    const offset_binario = endereco_binario.slice(endereco_binario.length-bitsLinha)
+    const tag_binario = endereco_binario.slice(0,endereco_binario.length-(numeroLinhas + bitsOffset))
+    const linhas_binario = endereco_binario.slice(bitsTag-1,endereco_binario.length-bitsOffset)
+    const offset_binario = endereco_binario.slice(endereco_binario.length-bitsOffset)
+    const cache_binario = endereco_binario.slice(bitsTag-2,)
 
     endereco_binario_result.textContent = endereco_binario
     tag_binario_result.textContent = tag_binario
-    conjunto_binario_result.textContent = conjunto_binario
+    linha_binario_result.textContent = linhas_binario
     offset_binario_result.textContent = offset_binario
+    cache_binario_result.textContent = cache_binario
 
     const tag_hexa = binaryToHex(tag_binario)
-    const conjunto_hexa = binaryToHex(conjunto_binario)
     const offset_hexa = binaryToHex(offset_binario)
+    const linhas_hexa = binaryToHex(linhas_binario)
+    const cache_hexa = binaryToHex(cache_binario)
 
     tag_hexa_result.textContent = tag_hexa
-    conjunto_hexa_result.textContent = conjunto_hexa
     offset_hexa_result.textContent = offset_hexa
+    linha_hexa_result.textContent = linhas_hexa
+    cache_hexa_result.textContent = cache_hexa
   }
 
-  else if (com_conjunto.toUpperCase() == "NAO") {
-    const bitsMp = (converterMemoria(input_mp, select_memoria))
-    const bitsCache = (converterMemoria(input_cache, select_cache))
-    const bitsLinha = (converterMemoria(input_linha, select_linha))
-    const bitsTag = tagSemConjunto(bitsMp, bitsLinha)
+  else if (select_tipo.toUpperCase() == "ASSOCIATIVO") {
+    if (com_conjunto.toUpperCase() == "SIM") {
+      const bitsMp = (converterMemoria(input_mp, select_memoria))
+      const bitsCache = (converterMemoria(input_cache, select_cache))
+      const bitsOffset = (converterMemoria(input_linha, select_linha))
+      const elevadoConjunto = (converterMemoria(input_conjunto, select_conjunto))
+      const bitsConjunto = bitsConjuntoFunc(bitsCache, elevadoConjunto, bitsLinha)
+      const bitsTag = tagComConjunto(bitsMp, bitsLinha, bitsConjunto)
 
-    bits_mp_result.textContent = bitsMp
-    bits_cache_result.textContent = bitsCache
-    bits_linha_result.textContent = bitsLinha
-    bits_tag_result.textContent = bitsTag
+      bits_mp_result.textContent = bitsMp
+      bits_cache_result.textContent = bitsCache
+      bits_offset_result.textContent = bitsOffset
+      bits_conjunto_result.textContent = bitsConjunto
+      bits_tag_result.textContent = bitsTag
 
-    const endereco_binario = hexToBinary(endereco_memoria)
-    const tag_binario = endereco_binario.slice(endereco_binario.length-bitsLinha)
-    const offset_binario = endereco_binario.slice(0,endereco_binario.length-bitsLinha)
+      const endereco_binario = hexToBinary(endereco_memoria)
+      const tag_binario = endereco_binario.slice(0,endereco_binario.length-(bitsConjunto + bitsLinha))
+      const conjunto_binario = endereco_binario.slice(bitsTag-1,endereco_binario.length-bitsLinha)
+      const offset_binario = endereco_binario.slice(endereco_binario.length-bitsLinha)
 
-    endereco_binario_result.textContent = endereco_binario
-    tag_binario_result.textContent = tag_binario
-    offset_binario_result.textContent = offset_binario
+      endereco_binario_result.textContent = endereco_binario
+      tag_binario_result.textContent = tag_binario
+      conjunto_binario_result.textContent = conjunto_binario
+      offset_binario_result.textContent = offset_binario
 
-    const tag_hexa = binaryToHex(tag_binario)
-    const offset_hexa = binaryToHex(offset_binario)
+      const tag_hexa = binaryToHex(tag_binario)
+      const conjunto_hexa = binaryToHex(conjunto_binario)
+      const offset_hexa = binaryToHex(offset_binario)
 
-    tag_hexa_result.textContent = tag_hexa
-    offset_hexa_result.textContent = offset_hexa
-    
+      tag_hexa_result.textContent = tag_hexa
+      conjunto_hexa_result.textContent = conjunto_hexa
+      offset_hexa_result.textContent = offset_hexa
+    }
+
+    else if (com_conjunto.toUpperCase() == "NAO") {
+      const bitsMp = (converterMemoria(input_mp, select_memoria))
+      const bitsCache = (converterMemoria(input_cache, select_cache))
+      const bitsOffset = (converterMemoria(input_linha, select_linha))
+      const bitsTag = tagSemConjunto(bitsMp, bitsLinha)
+
+      bits_mp_result.textContent = bitsMp
+      bits_cache_result.textContent = bitsCache
+      bits_offset_result.textContent = bitsOffset
+      bits_tag_result.textContent = bitsTag
+
+      const endereco_binario = hexToBinary(endereco_memoria)
+      const tag_binario = endereco_binario.slice(endereco_binario.length-bitsLinha)
+      const offset_binario = endereco_binario.slice(0,endereco_binario.length-bitsLinha)
+
+      endereco_binario_result.textContent = endereco_binario
+      tag_binario_result.textContent = tag_binario
+      offset_binario_result.textContent = offset_binario
+
+      const tag_hexa = binaryToHex(tag_binario)
+      const offset_hexa = binaryToHex(offset_binario)
+
+      tag_hexa_result.textContent = tag_hexa
+      offset_hexa_result.textContent = offset_hexa
+      
+    }
   }
 
 })
@@ -113,7 +157,7 @@ apagar.addEventListener('click', () => {
   endereco_result.textContent = '';
   bits_mp_result.textContent = '';
   bits_cache_result.textContent = '';
-  bits_linha_result.textContent = '';
+  bits_offset_result.textContent = '';
   bits_tag_result.textContent = '';
   bits_conjunto_result.textContent = '';
   endereco_binario_result.textContent = '';
@@ -176,6 +220,11 @@ function bitsConjuntoFunc(bitsCache, bitsVias, bitsLinha) {
   return bitsConjuntos;
 }
 
+function tagDireto(mp, linhas, offset) {
+  const tag = mp-(linhas+offset)
+  return tag
+}
+
 function tagComConjunto(mp, linha, conjunto) {
   const tag = mp-(linha+conjunto)
   return tag
@@ -204,6 +253,10 @@ function binaryToHex(binary) {
   let hex = decimal.toString(16).toUpperCase();
 
   return hex;
+}
+
+function numeroDeLinhas(bitsCache, bitsLinha) {
+  return bitsCache - bitsLinha;
 }
 
 // darkmode
