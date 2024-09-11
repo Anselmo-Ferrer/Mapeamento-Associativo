@@ -356,6 +356,6 @@ label {
     margin: 0.5rem 0rem 0.5rem 0rem;
 }
 
-#com_conjunto {
+#com_conjunto, #label_select_tipo {
     font-weight: 600;
 }

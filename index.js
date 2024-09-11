@@ -148,9 +148,7 @@ apagar.addEventListener('click', () => {
   document.getElementById('input_linha').value = '';
   document.getElementById('input_conjunto').value = '';
 
-  document.getElementById('select_memoria').value = '';
-  document.getElementById('select_cache').value = '';
-  document.getElementById('select_linha').value = '';
+  document.getElementById('select_tipo').value = '';
   document.getElementById('select_conjunto').value = '';
 
   // Limpar todos os spans de resultado
@@ -160,13 +158,18 @@ apagar.addEventListener('click', () => {
   bits_offset_result.textContent = '';
   bits_tag_result.textContent = '';
   bits_conjunto_result.textContent = '';
+  numero_linhas_result.textContent = ''
   endereco_binario_result.textContent = '';
   tag_binario_result.textContent = '';
   conjunto_binario_result.textContent = '';
   offset_binario_result.textContent = '';
+  linha_binario_result.textContent = ''
+  cache_binario_result.textContent = ''
   tag_hexa_result.textContent = '';
   conjunto_hexa_result.textContent = '';
   offset_hexa_result.textContent = '';
+  linha_hexa_result.textContent = ''
+  cache_hexa_result.textContent = ''
 });
 
 
