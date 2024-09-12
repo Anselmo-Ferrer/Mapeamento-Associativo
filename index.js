@@ -92,7 +92,7 @@ enviar.addEventListener('click', () => {
 
       const endereco_binario = hexToBinary(endereco_memoria)
       const tag_binario = endereco_binario.slice(0,endereco_binario.length-(bitsConjunto + bitsOffset))
-      const conjunto_binario = endereco_binario.sliceendereco_binario.slice(endereco_binario.length - (bitsConjunto + bitsOffset),endereco_binario.length-bitsOffset)
+      const conjunto_binario = endereco_binario.slice(endereco_binario.length - (bitsConjunto + bitsOffset),endereco_binario.length-bitsOffset)
       const offset_binario = endereco_binario.slice(endereco_binario.length-bitsOffset)
 
       endereco_binario_result.textContent = endereco_binario
