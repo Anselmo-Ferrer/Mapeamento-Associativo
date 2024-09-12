@@ -54,9 +54,9 @@ enviar.addEventListener('click', () => {
 
     const endereco_binario = hexToBinary(endereco_memoria)
     const tag_binario = endereco_binario.slice(0,endereco_binario.length-(numeroLinhas + bitsOffset))
-    const linhas_binario = endereco_binario.slice(bitsTag-1,endereco_binario.length-bitsOffset)
+    const linhas_binario = endereco_binario.slice(endereco_binario.length - (numeroLinhas + bitsOffset),endereco_binario.length-bitsOffset)
     const offset_binario = endereco_binario.slice(endereco_binario.length-bitsOffset)
-    const cache_binario = endereco_binario.slice(bitsTag-2,)
+    const cache_binario = endereco_binario.slice(endereco_binario.length - (numeroLinhas + bitsOffset),)
 
     endereco_binario_result.textContent = endereco_binario
     tag_binario_result.textContent = tag_binario
@@ -92,7 +92,7 @@ enviar.addEventListener('click', () => {
 
       const endereco_binario = hexToBinary(endereco_memoria)
       const tag_binario = endereco_binario.slice(0,endereco_binario.length-(bitsConjunto + bitsOffset))
-      const conjunto_binario = endereco_binario.slice(bitsTag-1,endereco_binario.length-bitsOffset)
+      const conjunto_binario = endereco_binario.sliceendereco_binario.slice(endereco_binario.length - (bitsConjunto + bitsOffset),endereco_binario.length-bitsOffset)
       const offset_binario = endereco_binario.slice(endereco_binario.length-bitsOffset)
 
       endereco_binario_result.textContent = endereco_binario

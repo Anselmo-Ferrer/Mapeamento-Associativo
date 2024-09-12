@@ -69,10 +69,10 @@ console.log(`bits tag: ${bitsTag}`);
 console.log(`elevado vias: ${elevadoVias}`);
 
 let hexNumber = "1D45CAB7E";
-let binaryNumber = hexToBinary(hexNumber);
+let endereco_binario = hexToBinary(hexNumber);
 
 console.log(`Hexadecimal: ${hexNumber}`);
-console.log(`Binário: ${binaryNumber}`);
+console.log(`Binário: ${endereco_binario}`);
 
 function binaryToHex(binary) {
   binary = binary.replace(/^0b/, '');
@@ -85,11 +85,11 @@ function binaryToHex(binary) {
 }
 
 
-let tagg = binaryNumber.slice(0,binaryNumber.length-(conjuntoBits + linha))
+let tagg = endereco_binario.slice(0,endereco_binario.length-(conjuntoBits + linha))
 console.log(`tag: ${tagg}`);
-let conjuntoo = binaryNumber.slice(bitsTag-1,binaryNumber.length-linha)
+let conjuntoo = endereco_binario.slice(endereco_binario.length - (conjuntoBits + linha),endereco_binario.length-linha)
 console.log(`conjunto: ${conjuntoo}`);
-let offset = binaryNumber.slice(binaryNumber.length-linha)
+let offset = endereco_binario.slice(endereco_binario.length-linha)
 console.log(`offset: ${offset}`);
 
 
