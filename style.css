@@ -290,6 +290,16 @@ body {
         border-bottom: 1px solid var(--gray-900);
         border-left: 0;
     }
+
+    .container_results {
+        flex-direction: column;
+    }
+}
+
+@media screen and (max-width: 1000px) {
+    .container_results {
+        flex-direction: column;
+    }
 }
 
 
